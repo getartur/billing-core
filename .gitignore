@@ -1,0 +1,14 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+/src/main/resources/db/migration/dev/V*
+/src/main/resources/db/migration/dev/R*
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
