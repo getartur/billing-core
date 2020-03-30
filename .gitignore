@@ -7,6 +7,8 @@ target/
 /src/main/resources/db/migration/dev/V*
 /src/main/resources/db/migration/dev/R*
 
+/src/main/resources/application-local.yml
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

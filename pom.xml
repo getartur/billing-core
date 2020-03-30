@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.5.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>2.2.6.RELEASE</version>
+		<relativePath/>
 	</parent>
 	<groupId>com.getartur</groupId>
 	<artifactId>billing-core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>billing-core</name>
-	<description>Manages</description>
+	<description>Manages a freelancer's billing needs from time tracking to customers invoicing</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -186,6 +186,12 @@
                             <inputCatalog>public</inputCatalog>
                               -->
 							<inputSchema>getartur</inputSchema>
+							<forcedTypes>
+								<forcedType>
+									<name>BOOLEAN</name>
+									<includeTypes>(?i:TINYINT\(1\))</includeTypes>
+								</forcedType>
+							</forcedTypes>
 						</database>
 						<target>
 							<packageName>com.getartur.billingcore.shared.domain.jooq</packageName>
