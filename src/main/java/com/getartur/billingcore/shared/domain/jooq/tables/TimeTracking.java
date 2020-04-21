@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TimeTracking extends TableImpl<TimeTrackingRecord> {
 
-    private static final long serialVersionUID = 223485718;
+    private static final long serialVersionUID = -653386028;
 
     /**
      * The reference instance of <code>getartur.time_tracking</code>
@@ -59,6 +59,11 @@ public class TimeTracking extends TableImpl<TimeTrackingRecord> {
     public final TableField<TimeTrackingRecord, Long> PROJECT_ID = createField(DSL.name("project_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
+     * The column <code>getartur.time_tracking.invoice_id</code>.
+     */
+    public final TableField<TimeTrackingRecord, Long> INVOICE_ID = createField(DSL.name("invoice_id"), org.jooq.impl.SQLDataType.BIGINT.defaultValue(org.jooq.impl.DSL.field("NULL", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+
+    /**
      * The column <code>getartur.time_tracking.description</code>.
      */
     public final TableField<TimeTrackingRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.CLOB.defaultValue(org.jooq.impl.DSL.field("NULL", org.jooq.impl.SQLDataType.CLOB)), this, "");
@@ -77,11 +82,6 @@ public class TimeTracking extends TableImpl<TimeTrackingRecord> {
      * The column <code>getartur.time_tracking.duration_in_minutes</code>.
      */
     public final TableField<TimeTrackingRecord, Integer> DURATION_IN_MINUTES = createField(DSL.name("duration_in_minutes"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>getartur.time_tracking.billed</code>.
-     */
-    public final TableField<TimeTrackingRecord, Boolean> BILLED = createField(DSL.name("billed"), org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.field("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
 
     /**
      * The column <code>getartur.time_tracking.created</code>.
@@ -143,11 +143,15 @@ public class TimeTracking extends TableImpl<TimeTrackingRecord> {
 
     @Override
     public List<ForeignKey<TimeTrackingRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<TimeTrackingRecord, ?>>asList(Keys.FK_PROJECT_TIME_TRACKING);
+        return Arrays.<ForeignKey<TimeTrackingRecord, ?>>asList(Keys.FK_PROJECT_TIME_TRACKING, Keys.FK_INVOICE_TIME_TRACKING);
     }
 
     public Project project() {
         return new Project(this, Keys.FK_PROJECT_TIME_TRACKING);
+    }
+
+    public Invoice invoice() {
+        return new Invoice(this, Keys.FK_INVOICE_TIME_TRACKING);
     }
 
     @Override
@@ -181,7 +185,7 @@ public class TimeTracking extends TableImpl<TimeTrackingRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, Long, String, LocalDateTime, LocalDateTime, Integer, Boolean, LocalDateTime> fieldsRow() {
+    public Row8<Long, Long, Long, String, LocalDateTime, LocalDateTime, Integer, LocalDateTime> fieldsRow() {
         return (Row8) super.fieldsRow();
     }
 }

@@ -7,6 +7,7 @@ package com.getartur.billingcore.shared.domain.jooq;
 import com.getartur.billingcore.shared.domain.jooq.tables.Address;
 import com.getartur.billingcore.shared.domain.jooq.tables.Customer;
 import com.getartur.billingcore.shared.domain.jooq.tables.FlywaySchemaHistory;
+import com.getartur.billingcore.shared.domain.jooq.tables.Invoice;
 import com.getartur.billingcore.shared.domain.jooq.tables.Project;
 import com.getartur.billingcore.shared.domain.jooq.tables.TimeTracking;
 
@@ -24,7 +25,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Getartur extends SchemaImpl {
 
-    private static final long serialVersionUID = 1075527308;
+    private static final long serialVersionUID = -535700609;
 
     /**
      * The reference instance of <code>getartur</code>
@@ -45,6 +46,11 @@ public class Getartur extends SchemaImpl {
      * The table <code>getartur.flyway_schema_history</code>.
      */
     public final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
+
+    /**
+     * The table <code>getartur.invoice</code>.
+     */
+    public final Invoice INVOICE = Invoice.INVOICE;
 
     /**
      * The table <code>getartur.project</code>.
@@ -75,6 +81,7 @@ public class Getartur extends SchemaImpl {
             Address.ADDRESS,
             Customer.CUSTOMER,
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
+            Invoice.INVOICE,
             Project.PROJECT,
             TimeTracking.TIME_TRACKING);
     }

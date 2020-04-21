@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.leftPad;
 
-public class TimeDataSource implements JRDataSource {
+public class TimeReportDataSource implements JRDataSource {
 
     private final CompanyProperties companyProperties;
     private final List<TimeTracking> rows;
@@ -24,7 +24,7 @@ public class TimeDataSource implements JRDataSource {
     private LocalDate end;
     private String projectName;
 
-    public TimeDataSource(String projectName, Month month, int year, List<TimeTracking> timeTrackings, CompanyProperties companyProperties) {
+    public TimeReportDataSource(String projectName, Month month, int year, List<TimeTracking> timeTrackings, CompanyProperties companyProperties) {
         this.companyProperties = companyProperties;
         this.projectName = projectName;
         start = LocalDate.of(year, month, 1);

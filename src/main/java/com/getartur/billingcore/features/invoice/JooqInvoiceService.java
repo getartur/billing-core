@@ -1,10 +1,12 @@
-package com.getartur.billingcore.features.timereport;
+package com.getartur.billingcore.features.invoice;
 
 import com.getartur.billingcore.shared.config.CompanyProperties;
+import com.getartur.billingcore.shared.domain.entities.customer.Customer;
+import com.getartur.billingcore.shared.domain.entities.customer.CustomerRepository;
+import com.getartur.billingcore.shared.domain.entities.invoice.Invoice;
+import com.getartur.billingcore.shared.domain.entities.invoice.InvoiceRepository;
+import com.getartur.billingcore.shared.domain.entities.invoice.InvoiceRow;
 import com.getartur.billingcore.shared.domain.entities.project.ProjectRepository;
-import com.getartur.billingcore.shared.domain.entities.project.Project;
-import com.getartur.billingcore.shared.domain.entities.timetracking.TimeTracking;
-import com.getartur.billingcore.shared.domain.entities.timetracking.TimeTrackingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -17,37 +19,35 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class JooqTimeReportService implements TimeReportService {
+public class JooqInvoiceService implements InvoiceService {
 
-    private final TimeTrackingRepository repository;
+    private final InvoiceRepository repository;
+    private final CustomerRepository customerRepository;
     private final ProjectRepository projectRepository;
     private final CompanyProperties companyProperties;
 
-    public TimeReportDataSource createTimeReport(Long projectId, Long invoiceId, Month month, int year) {
-        List<TimeTracking> timeTrackings = repository.findBillableHoursByProjectAndInvoice(projectId, invoiceId);
-        Project project = projectRepository.findById(projectId).orElse(null);
-        String projectName = "";
-        if(project != null) {
-            projectName = project.getName();
-        }
+    public InvoiceDataSource createInvoice(Long invoiceId, Long customerId) {
+        Optional<Invoice> invoice = repository.findById(invoiceId);
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        List<InvoiceRow> invoiceRows = repository.findInvoiceRowsById(invoiceId);
 
-        return new TimeReportDataSource(projectName, month, year, timeTrackings, companyProperties);
+        return new InvoiceDataSource(invoice.orElse(null), customer.orElse(null), invoiceRows, companyProperties);
     }
 
-    public byte[] generatePdf(TimeReportDataSource dataSource) {
-        ClassPathResource resource = new ClassPathResource("reports/time_report.jasper");
+    public byte[] generatePdf(InvoiceDataSource dataSource) {
+        ClassPathResource resource = new ClassPathResource("reports/invoice.jasper");
 
         /* [START] jrxml -> jasper conversion only in dev - checking jasper file for prod use */
         try {
-            File inputJrxml = new ClassPathResource("reports/time_report.jrxml").getFile();
+            File inputJrxml = new ClassPathResource("reports/invoice.jrxml").getFile();
             JasperCompileManager.compileReportToFile(JRXmlLoader.load(inputJrxml), resource.getFile().getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
