@@ -6,23 +6,11 @@ import com.getartur.billingcore.shared.domain.entities.customer.CustomerReposito
 import com.getartur.billingcore.shared.domain.entities.invoice.Invoice;
 import com.getartur.billingcore.shared.domain.entities.invoice.InvoiceRepository;
 import com.getartur.billingcore.shared.domain.entities.invoice.InvoiceRow;
-import com.getartur.billingcore.shared.domain.entities.project.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,44 +19,18 @@ public class JooqInvoiceService implements InvoiceService {
 
     private final InvoiceRepository repository;
     private final CustomerRepository customerRepository;
-    private final ProjectRepository projectRepository;
     private final CompanyProperties companyProperties;
 
-    public InvoiceDataSource createInvoice(Long invoiceId, Long customerId) {
-        Optional<Invoice> invoice = repository.findById(invoiceId);
-        Optional<Customer> customer = customerRepository.findById(customerId);
-        List<InvoiceRow> invoiceRows = repository.findInvoiceRowsById(invoiceId);
+    public InvoiceDataSource createInvoice(Long id) {
+        Invoice invoice = repository.findById(id).orElse(null);
+        Customer customer = customerRepository.findById(invoice != null ? invoice.getCustomerId() : null).orElse(null);
+        List<InvoiceRow> invoiceRows = repository.findInvoiceRowsById(id);
 
-        return new InvoiceDataSource(invoice.orElse(null), customer.orElse(null), invoiceRows, companyProperties);
+        return new InvoiceDataSource(invoice, customer, invoiceRows, companyProperties);
     }
 
-    public byte[] generatePdf(InvoiceDataSource dataSource) {
-        ClassPathResource resource = new ClassPathResource("reports/invoice.jasper");
-
-        /* [START] jrxml -> jasper conversion only in dev - checking jasper file for prod use */
-        try {
-            File inputJrxml = new ClassPathResource("reports/invoice.jrxml").getFile();
-            JasperCompileManager.compileReportToFile(JRXmlLoader.load(inputJrxml), resource.getFile().getAbsolutePath());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        /* [END]   jrxml -> jasper conversion only in dev - checking jasper file for prod use */
-
-        Map<String, Object> hm = new HashMap<>();
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            hm.put("SubDataSource", dataSource);
-            // Fill the report using the custom data source
-            JasperPrint jasperPrint = JasperFillManager.fillReport(resource.getInputStream(), hm, dataSource);
-
-            // export the PDF file
-            JasperExportManager.exportReportToPdfStream(jasperPrint, baos);
-
-            return baos.toByteArray();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public Invoice findById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
 }

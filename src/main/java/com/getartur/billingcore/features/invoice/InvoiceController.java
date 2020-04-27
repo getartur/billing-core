@@ -2,6 +2,7 @@ package com.getartur.billingcore.features.invoice;
 
 import com.getartur.billingcore.features.pdf.PdfService;
 import com.getartur.billingcore.features.timereport.TimeReportService;
+import com.getartur.billingcore.shared.domain.entities.invoice.Invoice;
 import com.getartur.billingcore.shared.domain.entities.project.Project;
 import com.getartur.billingcore.shared.domain.entities.project.ProjectRepository;
 import io.swagger.annotations.Api;
@@ -47,12 +48,13 @@ public class InvoiceController {
         response.setHeader("Content-Disposition", "attachment; filename=" + filename);
 
         List<Project> projects = projectRepository.findByInvoiceId(invoiceId);
+        Invoice invoice = invoiceService.findById(invoiceId);
 
         JRDataSource[] dataSources = new JRDataSource[projects.size()+1];
-        dataSources[0] = invoiceService.createInvoice(invoiceId, projects.get(0).getCustomerId());
+        dataSources[0] = invoiceService.createInvoice(invoiceId);
         int i = 1;
         for(Project project : projects) {
-            dataSources[i] = timeReportService.createTimeReport(project.getId(), invoiceId, Month.MARCH, 2020);
+            dataSources[i] = timeReportService.createTimeReport(project.getId(), invoiceId, invoice.getIssued().getMonth(), invoice.getIssued().getYear());
             i++;
         }
 
@@ -60,7 +62,7 @@ public class InvoiceController {
                 dataSources
         );
 
-        return new ResponseEntity(responsePdf, headers, HttpStatus.OK);
+        return new ResponseEntity<>(responsePdf, headers, HttpStatus.OK);
     }
 
 }

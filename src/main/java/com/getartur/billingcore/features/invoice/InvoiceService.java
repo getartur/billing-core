@@ -1,9 +1,11 @@
 package com.getartur.billingcore.features.invoice;
 
+import com.getartur.billingcore.shared.domain.entities.invoice.Invoice;
+
 public interface InvoiceService {
 
-    InvoiceDataSource createInvoice(Long invoiceId, Long customerId);
+    InvoiceDataSource createInvoice(Long id);
 
-    byte[] generatePdf(InvoiceDataSource dataSource);
+    Invoice findById(Long id);
 
 }
