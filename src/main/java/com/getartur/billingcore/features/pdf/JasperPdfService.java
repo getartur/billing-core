@@ -63,7 +63,7 @@ public class JasperPdfService implements PdfService {
 
                 String reportName = "";
                 if(dataSource instanceof TimeReportDataSource) {
-                    reportName = "time_report";
+                    reportName = ((TimeReportDataSource)dataSource).isJVProject() ? "time_report_simple_jv" : "time_report_simple";
                 } else if(dataSource instanceof InvoiceDataSource) {
                     reportName = "invoice";
                 }

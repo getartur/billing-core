@@ -57,15 +57,30 @@ CREATE TABLE IF NOT EXISTS `project` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `sub_project`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sub_project` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `project_id` BIGINT(20) NOT NULL,
+  `name` VARCHAR(255) NULL,
+  `pass_factor` DECIMAL(3, 2) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_project_sub_roject`
+    FOREIGN KEY (`project_id`)
+    REFERENCES `project` (`id`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `time_tracking`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `time_tracking` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `project_id` BIGINT(20) NOT NULL,
   `invoice_id` BIGINT(20),
+  `sub_project_id` BIGINT(20),
   `description` MEDIUMTEXT NULL,
   `start` DATETIME(6) NOT NULL,
-  `end` DATETIME(6) NOT NULL,
+  `end` DATETIME(6),
   `duration_in_minutes` INTEGER NOT NULL,
   `created` DATETIME(6) NOT NULL,
   PRIMARY KEY (`id`),
@@ -74,7 +89,10 @@ CREATE TABLE IF NOT EXISTS `time_tracking` (
     REFERENCES `project` (`id`),
   CONSTRAINT `fk_invoice_time_tracking`
     FOREIGN KEY (`invoice_id`)
-    REFERENCES `invoice` (`id`))
+    REFERENCES `invoice` (`id`),
+  CONSTRAINT `fk_sub_project_time_tracking`
+    FOREIGN KEY (`sub_project_id`)
+    REFERENCES `sub_project` (`id`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------

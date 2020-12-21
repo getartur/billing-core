@@ -1,11 +1,13 @@
 package com.getartur.billingcore.features.timereport;
 
 import com.getartur.billingcore.shared.config.CompanyProperties;
+import com.getartur.billingcore.shared.domain.entities.project.SubProject;
 import com.getartur.billingcore.shared.domain.entities.timetracking.TimeTracking;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +19,7 @@ import static org.apache.commons.lang3.StringUtils.leftPad;
 public class TimeReportDataSource implements JRDataSource {
 
     private final CompanyProperties companyProperties;
+    private final List<SubProject> subProjects;
     private final List<TimeTracking> rows;
     private int index = -2;
 
@@ -24,12 +27,17 @@ public class TimeReportDataSource implements JRDataSource {
     private LocalDate end;
     private String projectName;
 
-    public TimeReportDataSource(String projectName, Month month, int year, List<TimeTracking> timeTrackings, CompanyProperties companyProperties) {
+    public TimeReportDataSource(String projectName, Month month, int year, List<SubProject> subProjects, List<TimeTracking> timeTrackings, CompanyProperties companyProperties) {
         this.companyProperties = companyProperties;
         this.projectName = projectName;
-        start = LocalDate.of(year, month, 1);
-        end = start.plusMonths(1).minusDays(1);
-        rows = timeTrackings;
+        this.start = LocalDate.of(year, month, 1);
+        this.end = start.plusMonths(1).minusDays(1);
+        this.subProjects = subProjects;
+        this.rows = timeTrackings;
+    }
+
+    public boolean isJVProject() {
+        return projectName.equals("80.002 – charVIS");
     }
 
     @Override
@@ -56,19 +64,45 @@ public class TimeReportDataSource implements JRDataSource {
             return rows.get(index).getEnd().format(DateTimeFormatter.ofPattern("HH:mm"));
         }
         if(field.getName().equals("description")) {
-            return rows.get(index).getDescription();
+            String description = rows.get(index).getDescription();
+            Long subProjectId = rows.get(index).getSubProjectId();
+            if (subProjectId != null) {
+                description = "[" + getSubProject(subProjectId, subProjects).getName() + "] " + description;
+            }
+            return description;
         }
         if(field.getName().equals("duration")) {
-            long duration = ChronoUnit.MINUTES.between(rows.get(index).getStart(), rows.get(index).getEnd());
-            /*if(!rows.get(index).getDurationInMinutes().equals(duration)) {
-                throw new JRException("Safety check - TimeTracking field durationInMinutes doesn't equal calculated value");
-            }*/
+            if (rows.get(index).getEnd() != null) {
+                long duration = ChronoUnit.MINUTES.between(rows.get(index).getStart(), rows.get(index).getEnd());
+                /*if(!rows.get(index).getDurationInMinutes().equals(duration)) {
+                    throw new JRException("Safety check - TimeTracking field durationInMinutes doesn't equal calculated value");
+                }*/
+                return leftPad(duration / 60 + "", 2, "0") + ":" + leftPad(duration % 60 + "", 2, "0");
+            }
+            long duration = rows.get(index).getDurationInMinutes();
             return leftPad(duration / 60 + "", 2, "0") + ":" + leftPad(duration % 60 + "", 2, "0");
+        }
+        if(field.getName().equals("durationJV")) {
+            Long subProjectId = rows.get(index).getSubProjectId();
+            if (subProjectId != null) {
+                long duration = getSubProject(subProjectId, subProjects).getPassFactor().multiply(new BigDecimal(rows.get(index).getDurationInMinutes() + "")).longValue();
+                if (duration > 0L) {
+                    return leftPad(duration / 60 + "", 2, "0") + ":" + leftPad(duration % 60 + "", 2, "0");
+                }
+            }
+            return "";
         }
         if(field.getName().equals("sumDuration")) {
             long duration = 0;
             for(TimeTracking time : rows) {
-                duration += ChronoUnit.MINUTES.between(time.getStart(), time.getEnd());
+                duration += time.getEnd() != null ? ChronoUnit.MINUTES.between(time.getStart(), time.getEnd()) : time.getDurationInMinutes();
+            }
+            return leftPad(duration / 60 + "", 2, "0") + ":" + leftPad(duration % 60 + "", 2, "0");
+        }
+        if(field.getName().equals("sumDurationJV")) {
+            long duration = 0;
+            for(TimeTracking time : rows) {
+                duration += getSubProject(time.getSubProjectId(), subProjects).getPassFactor().multiply(new BigDecimal(time.getDurationInMinutes() + "")).longValue();
             }
             return leftPad(duration / 60 + "", 2, "0") + ":" + leftPad(duration % 60 + "", 2, "0");
         }
@@ -86,6 +120,10 @@ public class TimeReportDataSource implements JRDataSource {
                     //+ ", " + companyProperties.getAddress().getCountry();
         }
         return null;
+    }
+
+    private SubProject getSubProject(Long subProjectId, List<SubProject> subProjects) {
+        return subProjects.stream().filter(x -> x.getId().equals(subProjectId)).findFirst().orElse(new SubProject(0L, 0L, "", BigDecimal.ZERO));
     }
 
 }

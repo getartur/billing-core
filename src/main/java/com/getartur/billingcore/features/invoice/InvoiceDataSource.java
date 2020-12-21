@@ -113,7 +113,7 @@ public class InvoiceDataSource implements JRDataSource {
         }
         if(field.getName().equals("invoiceHeader")) {
             return invoice.getNumber() + "\n"
-                    + "2001" + "\n"
+                    + customer.getNumber() + "\n"
                     + invoice.getIssued().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n"
                     + invoice.getDelivery();
         }

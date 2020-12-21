@@ -17,7 +17,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TimeTracking extends TableImpl<TimeTrackingRecord> {
 
-    private static final long serialVersionUID = -653386028;
+    private static final long serialVersionUID = -788134908;
 
     /**
      * The reference instance of <code>getartur.time_tracking</code>
@@ -64,6 +64,11 @@ public class TimeTracking extends TableImpl<TimeTrackingRecord> {
     public final TableField<TimeTrackingRecord, Long> INVOICE_ID = createField(DSL.name("invoice_id"), org.jooq.impl.SQLDataType.BIGINT.defaultValue(org.jooq.impl.DSL.field("NULL", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
+     * The column <code>getartur.time_tracking.sub_project_id</code>.
+     */
+    public final TableField<TimeTrackingRecord, Long> SUB_PROJECT_ID = createField(DSL.name("sub_project_id"), org.jooq.impl.SQLDataType.BIGINT.defaultValue(org.jooq.impl.DSL.field("NULL", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+
+    /**
      * The column <code>getartur.time_tracking.description</code>.
      */
     public final TableField<TimeTrackingRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.CLOB.defaultValue(org.jooq.impl.DSL.field("NULL", org.jooq.impl.SQLDataType.CLOB)), this, "");
@@ -76,7 +81,7 @@ public class TimeTracking extends TableImpl<TimeTrackingRecord> {
     /**
      * The column <code>getartur.time_tracking.end</code>.
      */
-    public final TableField<TimeTrackingRecord, LocalDateTime> END = createField(DSL.name("end"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false), this, "");
+    public final TableField<TimeTrackingRecord, LocalDateTime> END = createField(DSL.name("end"), org.jooq.impl.SQLDataType.LOCALDATETIME.defaultValue(org.jooq.impl.DSL.field("NULL", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>getartur.time_tracking.duration_in_minutes</code>.
@@ -143,7 +148,7 @@ public class TimeTracking extends TableImpl<TimeTrackingRecord> {
 
     @Override
     public List<ForeignKey<TimeTrackingRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<TimeTrackingRecord, ?>>asList(Keys.FK_PROJECT_TIME_TRACKING, Keys.FK_INVOICE_TIME_TRACKING);
+        return Arrays.<ForeignKey<TimeTrackingRecord, ?>>asList(Keys.FK_PROJECT_TIME_TRACKING, Keys.FK_INVOICE_TIME_TRACKING, Keys.FK_SUB_PROJECT_TIME_TRACKING);
     }
 
     public Project project() {
@@ -152,6 +157,10 @@ public class TimeTracking extends TableImpl<TimeTrackingRecord> {
 
     public Invoice invoice() {
         return new Invoice(this, Keys.FK_INVOICE_TIME_TRACKING);
+    }
+
+    public SubProject subProject() {
+        return new SubProject(this, Keys.FK_SUB_PROJECT_TIME_TRACKING);
     }
 
     @Override
@@ -181,11 +190,11 @@ public class TimeTracking extends TableImpl<TimeTrackingRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, Long, Long, String, LocalDateTime, LocalDateTime, Integer, LocalDateTime> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<Long, Long, Long, Long, String, LocalDateTime, LocalDateTime, Integer, LocalDateTime> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }

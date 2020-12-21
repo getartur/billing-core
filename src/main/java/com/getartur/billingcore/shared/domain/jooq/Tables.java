@@ -9,6 +9,7 @@ import com.getartur.billingcore.shared.domain.jooq.tables.Customer;
 import com.getartur.billingcore.shared.domain.jooq.tables.FlywaySchemaHistory;
 import com.getartur.billingcore.shared.domain.jooq.tables.Invoice;
 import com.getartur.billingcore.shared.domain.jooq.tables.Project;
+import com.getartur.billingcore.shared.domain.jooq.tables.SubProject;
 import com.getartur.billingcore.shared.domain.jooq.tables.TimeTracking;
 
 
@@ -42,6 +43,11 @@ public class Tables {
      * The table <code>getartur.project</code>.
      */
     public static final Project PROJECT = Project.PROJECT;
+
+    /**
+     * The table <code>getartur.sub_project</code>.
+     */
+    public static final SubProject SUB_PROJECT = SubProject.SUB_PROJECT;
 
     /**
      * The table <code>getartur.time_tracking</code>.

@@ -3,6 +3,8 @@ package com.getartur.billingcore.features.timereport;
 import com.getartur.billingcore.shared.config.CompanyProperties;
 import com.getartur.billingcore.shared.domain.entities.project.ProjectRepository;
 import com.getartur.billingcore.shared.domain.entities.project.Project;
+import com.getartur.billingcore.shared.domain.entities.project.SubProject;
+import com.getartur.billingcore.shared.domain.entities.project.SubProjectRepository;
 import com.getartur.billingcore.shared.domain.entities.timetracking.TimeTracking;
 import com.getartur.billingcore.shared.domain.entities.timetracking.TimeTrackingRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,17 +31,19 @@ public class JooqTimeReportService implements TimeReportService {
 
     private final TimeTrackingRepository repository;
     private final ProjectRepository projectRepository;
+    private final SubProjectRepository subProjectRepository;
     private final CompanyProperties companyProperties;
 
     public TimeReportDataSource createTimeReport(Long projectId, Long invoiceId, Month month, int year) {
         List<TimeTracking> timeTrackings = repository.findBillableHoursByProjectAndInvoice(projectId, invoiceId);
+        List<SubProject> subProjects = subProjectRepository.findByProjectId(projectId);
         Project project = projectRepository.findById(projectId).orElse(null);
         String projectName = "";
         if(project != null) {
             projectName = project.getName();
         }
 
-        return new TimeReportDataSource(projectName, month, year, timeTrackings, companyProperties);
+        return new TimeReportDataSource(projectName, month, year, subProjects, timeTrackings, companyProperties);
     }
 
     public byte[] generatePdf(TimeReportDataSource dataSource) {

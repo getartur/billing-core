@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Invoice extends TableImpl<InvoiceRecord> {
 
-    private static final long serialVersionUID = 110947065;
+    private static final long serialVersionUID = -699361515;
 
     /**
      * The reference instance of <code>getartur.invoice</code>
@@ -72,7 +72,7 @@ public class Invoice extends TableImpl<InvoiceRecord> {
     /**
      * The column <code>getartur.invoice.delivery</code>.
      */
-    public final TableField<InvoiceRecord, String> DELIVERY = createField(DSL.name("delivery"), org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.field("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+    public final TableField<InvoiceRecord, String> DELIVERY = createField(DSL.name("delivery"), org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
      * The column <code>getartur.invoice.intro</code>.

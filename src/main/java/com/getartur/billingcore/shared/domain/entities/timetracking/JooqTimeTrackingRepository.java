@@ -3,7 +3,7 @@ package com.getartur.billingcore.shared.domain.entities.timetracking;
 import com.getartur.billingcore.shared.domain.jooq.tables.records.TimeTrackingRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
-import org.jooq.Record8;
+import org.jooq.Record9;
 import org.jooq.Result;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,10 +27,11 @@ public class JooqTimeTrackingRepository implements TimeTrackingRepository {
     }
 
     public List<TimeTracking> findBillableHoursByProjectAndInvoice(Long projectId, Long invoiceId) {
-        Result<Record8<Long, Long, Long, String, LocalDateTime, LocalDateTime, Integer, LocalDateTime>> result = dsl.select(
+        Result<Record9<Long, Long, Long, Long, String, LocalDateTime, LocalDateTime, Integer, LocalDateTime>> result = dsl.select(
                 TIME_TRACKING.ID,
                 TIME_TRACKING.PROJECT_ID,
                 TIME_TRACKING.INVOICE_ID,
+                TIME_TRACKING.SUB_PROJECT_ID,
                 TIME_TRACKING.DESCRIPTION,
                 TIME_TRACKING.START,
                 TIME_TRACKING.END,
@@ -42,7 +43,7 @@ public class JooqTimeTrackingRepository implements TimeTrackingRepository {
                 PROJECT.ID.eq(projectId).and(TIME_TRACKING.INVOICE_ID.eq(invoiceId))
         ).orderBy(TIME_TRACKING.START.asc()).fetch();
 
-        return result.stream().map(x -> new TimeTracking(x.component1(), x.component2(), x.component3(), x.component4(), x.component5(), x.component6(), x.component7(), x.component8())).collect(Collectors.toList());
+        return result.stream().map(x -> new TimeTracking(x.component1(), x.component2(), x.component3(), x.component4(), x.component5(), x.component6(), x.component7(), x.component8(), x.component9())).collect(Collectors.toList());
     }
 
     private TimeTracking mapToDto(TimeTrackingRecord record) {
@@ -50,6 +51,7 @@ public class JooqTimeTrackingRepository implements TimeTrackingRepository {
                 record.getId(),
                 record.getProjectId(),
                 record.getInvoiceId(),
+                record.getSubProjectId(),
                 record.getDescription(),
                 record.getStart(),
                 record.getEnd(),
