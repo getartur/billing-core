@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="time_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="44aa4d3e-78f6-4a26-8b04-3cb4434dd331">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
@@ -11,7 +11,7 @@
 			<rightPen lineWidth="0.0" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table_CH" mode="Opaque" backcolor="#4A6DA7">
+	<style name="Table_CH" mode="Opaque" backcolor="#FE4101">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.0" lineColor="#000000"/>
@@ -65,35 +65,28 @@
 			<line>
 				<reportElement x="1" y="72" width="552" height="1" forecolor="#AAAAAA" uuid="0335a39f-0f76-4b09-9acc-ee6ae831473e"/>
 			</line>
-			<staticText>
-				<reportElement x="0" y="0" width="280" height="63" forecolor="#4A6DA7" uuid="0b4c3922-cc52-42ff-a9bc-bdc968941a85"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans Mono" size="24" isBold="true" isItalic="false"/>
-				</textElement>
-				<text><![CDATA[getArtur( );]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="310" y="18" width="243" height="45" isPrintWhenDetailOverflows="true" uuid="06b09dd7-e69d-4f53-b491-96ccaa771948"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="18" width="243" height="45" isPrintWhenDetailOverflows="true" uuid="06b09dd7-e69d-4f53-b491-96ccaa771948"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{addressHeader}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="0" y="91" width="243" height="90" isPrintWhenDetailOverflows="true" uuid="eaed879b-3862-41cb-a70f-29c9897b7329"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="DejaVu Sans" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{customerHeader}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="242" y="219" width="310" height="15" isPrintWhenDetailOverflows="true" uuid="3a51ea36-4cb0-4164-a2fa-313ddfae64a3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{invoicePlaceDate}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="0" y="248" width="553" height="15" isPrintWhenDetailOverflows="true" uuid="e34eb03b-4d0c-4063-b0a9-5a6f1a961800"/>
 				<box leftPadding="0" rightPadding="0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -101,7 +94,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{invoiceTitle}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="0" y="278" width="552" height="30" isPrintWhenDetailOverflows="true" uuid="4ef2248d-8249-43d7-a542-4dc2e3b6ea9f"/>
 				<box leftPadding="0" rightPadding="0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -109,7 +102,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{intro}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="280" y="90" width="140" height="60" isPrintWhenDetailOverflows="true" uuid="be5ce25f-5b9b-4ab9-a0d2-35c722144331"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="DejaVu Sans" size="12" isBold="true"/>
@@ -119,20 +112,24 @@
 "Rechnungsdatum:\n" +
 "Leistungszeitraum:"]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="420" y="90" width="133" height="60" isPrintWhenDetailOverflows="true" uuid="b7bfb6b5-8286-464b-90e4-4ef795649635"/>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font fontName="DejaVu Sans" size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{invoiceHeader}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="310" y="0" width="243" height="18" isPrintWhenDetailOverflows="true" uuid="ec73b622-72a4-441a-9e6a-b44e8b32622f"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="0" width="243" height="18" isPrintWhenDetailOverflows="true" uuid="ec73b622-72a4-441a-9e6a-b44e8b32622f"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nameHeader}]]></textFieldExpression>
 			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="280" y="0" width="273" height="63" uuid="945e71c9-ae47-44e5-a0ed-1505e72c4a01"/>
+				<imageExpression><![CDATA["/Users/artur/JaspersoftWorkspace/_PoweredUp_Logo_colored.png"]]></imageExpression>
+			</image>
 		</band>
 	</pageHeader>
 	<detail>
@@ -249,7 +246,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement x="0" y="0" width="69" height="30" isPrintWhenDetailOverflows="true" uuid="0e497837-6518-41d7-b11c-92d8780c61a9"/>
 								<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="5"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -300,7 +297,7 @@
 					</jr:column>
 				</jr:table>
 			</componentElement>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="0" y="117" width="552" height="15" isPrintWhenDetailOverflows="true" uuid="7fe21f81-5745-429d-8654-d1dc432558f7"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="12" isBold="false"/>
@@ -367,7 +364,7 @@
 	</detail>
 	<pageFooter>
 		<band height="95" splitType="Stretch">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="0" y="20" width="100" height="75" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="43ae816d-1c65-44f7-b998-c62eb644d510"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="DejaVu Sans" size="10"/>
@@ -375,30 +372,30 @@
 				<textFieldExpression><![CDATA["Bankverbindung:\n" +
 "Kontoinhaber:\n" +
 "IBAN:\n" +
-"BIC:\n\n" +
-
-"UID:"]]></textFieldExpression>
+"BIC:"]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="10" width="552" height="1" forecolor="#AAAAAA" uuid="011aa5bb-7a08-40fc-ae80-16c5582dd8ac"/>
 			</line>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="370" y="20" width="50" height="30" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="bbef5fe8-4662-4d2d-a8a9-6a37b0ba482b"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="320" y="20" width="50" height="30" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="bbef5fe8-4662-4d2d-a8a9-6a37b0ba482b"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA["E-Mail:\n" +
-"Mobil:"]]></textFieldExpression>
+"Mobil:\n" +
+"UID:\n" +
+"FN:"]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="100" y="20" width="220" height="75" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="022e7e27-2ef7-47df-8883-fbd60f8e1f74"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bankingFooter}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="420" y="20" width="132" height="30" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="05e3c2ed-3e80-4162-92cd-f2eb8967453d"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="370" y="20" width="182" height="30" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="05e3c2ed-3e80-4162-92cd-f2eb8967453d"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>

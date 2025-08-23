@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   `name` VARCHAR(255) NULL,
   `started` DATE NOT NULL,
   `finished` DATE,
-  `rate` DECIMAL(6,2) NOT NULL,
+  `rate` DECIMAL(8,2) NOT NULL,
   `rate_type` VARCHAR(32) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_contract_project`

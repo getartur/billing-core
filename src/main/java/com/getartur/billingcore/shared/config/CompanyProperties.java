@@ -12,6 +12,7 @@ public class CompanyProperties {
     private String name;
     private String owner;
     private String vatin;
+    private String fn;
     private String eMail;
     private String mobile;
 

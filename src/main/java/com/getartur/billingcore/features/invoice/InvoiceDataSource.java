@@ -84,7 +84,7 @@ public class InvoiceDataSource implements JRDataSource {
             return formatDecimal(totalWithVat, "€");
         }
         if(field.getName().equals("nameHeader")) {
-            return companyProperties.getOwner();
+            return companyProperties.getName();
         }
         if(field.getName().equals("addressHeader")) {
             return companyProperties.getAddress().getLine1() + "\n"
@@ -94,14 +94,15 @@ public class InvoiceDataSource implements JRDataSource {
         }
         if(field.getName().equals("bankingFooter")) {
             return companyProperties.getBankAccount().getName() + "\n"
-                    + companyProperties.getOwner() + "\n"
+                    + companyProperties.getName() + "\n"
                     + companyProperties.getBankAccount().getIban() + "\n"
-                    + companyProperties.getBankAccount().getBic() + "\n\n"
-                    + companyProperties.getVatin();
+                    + companyProperties.getBankAccount().getBic();
         }
         if(field.getName().equals("communicationFooter")) {
             return companyProperties.getEMail() + "\n"
-                    + companyProperties.getMobile();
+                    + companyProperties.getMobile() + "\n"
+                    + companyProperties.getVatin() + "\n"
+                    + companyProperties.getFn();
         }
         if(field.getName().equals("customerHeader")) {
             return customer.getName() + "\n" +
